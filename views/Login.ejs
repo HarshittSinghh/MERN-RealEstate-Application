@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #121212;
+      color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+    .header {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 3rem;
+      text-align: center;
+      color: #7cb8c0;
+      margin-top: 20px;
+    }
+    .login-container {
+      margin-top: 50px;
+    }
+    .btn-primary {
+      background-color: #7cb8c0;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #5aa5ad;
+    }
+    .portal-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2rem;
+      text-align: center;
+      margin-bottom: 20px;
+      border: 2px solid #444;
+      border-radius: 10px;
+      color: #fff;
+      background-color: #333;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    .portal-btn:hover {
+      background-color: #5aa5ad;
+      color: #121212;
+      border-color: #5aa5ad;
+    }
+    .modal-content {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      border-radius: 15px;
+    }
+    .modal-header {
+      border-bottom: 1px solid #7cb8c0;
+    }
+    .form-control {
+      background-color: #2b2b2b;
+      color: #f5f5f5;
+      border: 1px solid #444;
+    }
+    .form-control:focus {
+      border-color: #7cb8c0;
+      box-shadow: 0 0 5px #7cb8c0;
+    }
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <strong>RealEstateHub</strong>
+    </div>
+
+    <!-- Login Section -->
+    <div class="row login-container align-items-center">
+      <!-- Left Side: Image -->
+      <div class="col-md-6 text-center">
+        <img
+          src="https://ysac.ca/wp-content/uploads/2023/06/Illustration-House-investment-growth-Real-estate-Property-value.webp"
+          alt="Login Illustration"
+          class="img-fluid rounded"
+        />
+      </div>
+
+      <!-- Right Side: Login Portals -->
+      <div class="col-md-6">
+        <h4 class="text-center mb-4">Select a Portal</h4>
+        <button class="portal-btn" data-bs-toggle="modal" data-bs-target="#customerLoginModal">
+          <i class="bi bi-person-circle"></i> Login as Customer
+        </button>
+        <button class="portal-btn" data-bs-toggle="modal" data-bs-target="#adminLoginModal">
+          <i class="bi bi-shield-lock-fill"></i> Login as Admin
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customer Login Modal -->
+  <div class="modal fade" id="customerLoginModal" tabindex="-1" aria-labelledby="customerLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="customerLoginModalLabel">Customer Login</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/login" method="POST">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="customerEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                id="customerEmail"
+                name="email"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="customerPassword" class="form-label">Password</label>
+              <input
+                type="password"
+                id="customerPassword"
+                name="password"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <input type="hidden" name="role" value="customer" />
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-labelledby="adminLoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adminLoginModalLabel">Admin Login</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/login" method="POST">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="adminEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                id="adminEmail"
+                name="email"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="adminPassword" class="form-label">Password</label>
+              <input
+                type="password"
+                id="adminPassword"
+                name="password"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <input type="hidden" name="role" value="admin" />
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.js"></script>
+</body>
+</html>

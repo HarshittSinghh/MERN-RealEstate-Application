@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealEstateHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General styling for dark theme */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .carousel-caption {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: #1d1d1d;
+            border: none;
+            color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card img {
+            border-radius: 8px;
+            border: 2px solid #333;
+            transition: transform 0.3s ease;
+        }
+
+        .card img:hover {
+            transform: scale(1.1);
+        }
+
+        .navbar-dark .navbar-brand,
+        .navbar-dark .navbar-nav .nav-link {
+            color: #fff;
+        }
+
+        .navbar-dark .navbar-brand:hover,
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: #7CB8C0;
+        }
+
+        .bg-primary {
+            background-color: #333333 !important;
+        }
+
+        .btn-primary {
+            background-color: #7CB8C0;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #5b8c80;
+        }
+
+        footer {
+            background-color: #212121;
+            color: white;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: #7CB8C0;
+            border-radius: 50%;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background-color: #5b8c80;
+        }
+
+        .property-card {
+            margin-bottom: 30px;
+        }
+
+        .property-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .property-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .property-location,
+        .property-price {
+            font-size: 1rem;
+        }
+
+        .modal-header .btn-close {
+            background-color: transparent;
+            border: none;
+            font-size: 1.5rem;
+        }
+
+        .logout-btn {
+            color: white;
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .property-price {
+            color: #7CB8C0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="/">RealEstateHub</a>
+            <!-- Navbar content -->
+            <div class="ms-auto d-flex gap-3">
+                <a class="btn btn-light text-primary fw-bold" href="/add-property">List a Property</a>
+                <button class="btn logout-btn" onclick="window.location.href='/logout'">Logout</button>
+            </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section with Carousel -->
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <img src="https://images.pexels.com/photos/29247927/pexels-photo-29247927/free-photo-of-modern-dubai-residential-complex-with-pool.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    class="d-block w-100 carousel-img" alt="Real Estate">
+                <div class="carousel-caption">
+                    <h1 class="display-4 fw-bold text-white">Find Your Dream Home</h1>
+                    <p class="lead text-white">Explore a wide range of premium properties tailored to your needs.</p>
+                    <a href="#properties" class="btn btn-light text-primary px-4 py-2 fw-bold">Browse Properties</a>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <img src="https://images.pexels.com/photos/1642125/pexels-photo-1642125.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    class="d-block w-100 carousel-img" alt="Apartment">
+                <div class="carousel-caption">
+                    <h1 class="display-4 fw-bold text-white">Luxury Apartments</h1>
+                    <p class="lead text-white">Discover upscale apartments with modern amenities.</p>
+                    <a href="#properties" class="btn btn-light text-primary px-4 py-2 fw-bold">View Listings</a>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <img src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    class="d-block w-100 carousel-img" alt="Villa">
+                <div class="carousel-caption">
+                    <h1 class="display-4 fw-bold text-white">Elegant Villas</h1>
+                    <p class="lead text-white">Experience luxury living in beautiful villas.</p>
+                    <a href="#properties" class="btn btn-light text-primary px-4 py-2 fw-bold">Explore Now</a>
+                </div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="carousel-item">
+                <img src="https://images.pexels.com/photos/681327/pexels-photo-681327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                    class="d-block w-100 carousel-img" alt="Modern Homes">
+                <div class="carousel-caption">
+                    <h1 class="display-4 fw-bold text-white">Modern Homes</h1>
+                    <p class="lead text-white">Discover futuristic designs with advanced technologies.</p>
+                    <a href="#properties" class="btn btn-light text-primary px-4 py-2 fw-bold">Learn More</a>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Property Listings Section -->
+    <section id="properties" class="container my-5">
+        <h2 class="text-center text-primary mb-4">Featured Properties</h2>
+        <div class="row">
+            <% properties.forEach(function(property) { %>
+                <!-- Property Card -->
+                <div class="col-md-4">
+                    <div class="card property-card">
+                        <img src="<%= property.image %>" class="card-img-top" alt="<%= property.title %>">
+                        <div class="card-body">
+                            <h5 class="property-title">
+                                <%= property.title %>
+                            </h5>
+                            <p class="property-location text-muted">
+                                <%= property.location %>
+                            </p>
+                            <p class="property-price">Rs:<%= property.price.toLocaleString() %>
+                            </p>
+                            <p><strong>Type:</strong>
+                                <%= property.propertyType %>
+                            </p>
+
+                            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#propertyModal"
+                                data-title="<%= property.title %>" data-location="<%= property.location %>"
+                                data-price="<%= property.price.toLocaleString() %>"
+                                data-description="<%= property.description %>" data-image="<%= property.image %>"
+                                data-propertytype="<%= property.propertyType %>"
+                                data-bedrooms="<%= property.bedrooms %>" data-bathrooms="<%= property.bathrooms %>"
+                                data-size="<%= property.size %>"
+                                data-features="<%= property.features.join(', ') %>">View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </section>
+
+    <!-- Property Details Modal -->
+    <div class="modal fade" id="propertyModal" tabindex="-1" aria-labelledby="propertyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="propertyModalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="" alt="Property Image" class="img-fluid" id="property-image">
+                        </div>
+                        <div class="col-md-6">
+                            <p id="property-description"></p>
+                            <ul id="property-features"></ul>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Price</th>
+                                    <td id="property-price"></td>
+                                </tr>
+                                <tr>
+                                    <th>Location</th>
+                                    <td id="property-location"></td>
+                                </tr>
+                                <tr>
+                                    <th>Property Type</th>
+                                    <td id="property-type"></td>
+                                </tr>
+                                <tr>
+                                    <th>Size</th>
+                                    <td id="property-size"></td>
+                                </tr>
+                                <tr>
+                                    <th>Bedrooms</th>
+                                    <td id="property-bedrooms"></td>
+                                </tr>
+                                <tr>
+                                    <th>Bathrooms</th>
+                                    <td id="property-bathrooms"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4">
+        <p>&copy; 2024 RealEstateHub. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Populate property modal with details
+        const propertyModal = document.getElementById('propertyModal');
+        propertyModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            document.getElementById('propertyModalLabel').textContent = button.getAttribute('data-title');
+            document.getElementById('property-image').src = button.getAttribute('data-image');
+            document.getElementById('property-description').textContent = button.getAttribute('data-description');
+            document.getElementById('property-price').textContent = "Rs:" + button.getAttribute('data-price');
+            document.getElementById('property-location').textContent = button.getAttribute('data-location');
+            document.getElementById('property-type').textContent = button.getAttribute('data-propertytype');
+            document.getElementById('property-size').textContent = button.getAttribute('data-size');
+            document.getElementById('property-bedrooms').textContent = button.getAttribute('data-bedrooms');
+            document.getElementById('property-bathrooms').textContent = button.getAttribute('data-bathrooms');
+            const featuresList = document.getElementById('property-features');
+            featuresList.innerHTML = '';
+            const features = button.getAttribute('data-features').split(', ');
+            features.forEach(function (feature) {
+                const listItem = document.createElement('li');
+                listItem.textContent = feature;
+                featuresList.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+
+</html>
