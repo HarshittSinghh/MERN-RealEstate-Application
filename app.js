@@ -7,12 +7,8 @@ const session = require("express-session");
 
 const app = express();
 
-// Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/realEstateDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
+mongoose.connect("mongodb://localhost:27017/realEstateDB");
 const Property = require("./models/Property");
 
 // Middleware
@@ -20,15 +16,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 
+// Session setup
 app.use(
   session({
     secret: "yourSecretKey",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 30 }, // Session expires after 30 minutes
+    cookie: { maxAge: 1000 * 60 * 30 },
   })
 );
 
+// Multer storage configuration for image uploads
 const storage = multer.diskStorage({
   destination: "./public/images/",
   filename: (req, file, cb) => {
@@ -37,7 +35,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Credentials for admin and customer login
 const credentials = {
   admin: { email: "admin@gmail.com", password: "admin@123" },
   customer: { email: "customer@gmail.com", password: "customer@123" },
@@ -52,18 +49,17 @@ function isAuthenticated(req, res, next) {
   }
 }
 
-// Routes
 
-// Home route (check if logged in)
+// Index route - First page with a Login button
 app.get("/", (req, res) => {
   if (req.session.user) {
     res.redirect("/home");
   } else {
-    res.redirect("/login");
+    res.render("index"); 
   }
 });
 
-// Login page
+// Login route
 app.get("/login", (req, res) => {
   if (req.session.user) {
     res.redirect("/home");
@@ -72,37 +68,41 @@ app.get("/login", (req, res) => {
   }
 });
 
-// Handle login post request
+// Handle login POST request
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   if (email === credentials.admin.email && password === credentials.admin.password) {
-    req.session.user = { role: "admin", email }; // Set session for admin
+    req.session.user = { role: "admin", email };
     res.redirect("/home");
   } else if (email === credentials.customer.email && password === credentials.customer.password) {
-    req.session.user = { role: "customer", email }; // Set session for customer
+    req.session.user = { role: "customer", email };
     res.redirect("/home");
   } else {
-    res.send("<h2>Login Failed</h2><p>Invalid email or password. Please try again.</p>");
+    res.render("login", { error: "Invalid email or password. Please try again." });
   }
 });
 
-// Home page - Only accessible if logged in
+// Home route - Accessible only for logged-in users
 app.get("/home", isAuthenticated, async (req, res) => {
-  const properties = await Property.find();
-  res.render("home", { properties, user: req.session.user });
+  try {
+    const properties = await Property.find();
+    res.render("home", { properties, user: req.session.user });
+  } catch (err) {
+    res.status(500).send("An error occurred while fetching properties.");
+  }
 });
 
-// Add Property - Only accessible for admin
+// Add Property route (Admin only)
 app.get("/add-property", isAuthenticated, (req, res) => {
   if (req.session.user.role === "admin") {
     res.render("addProperty");
   } else {
-    res.send("<h2>Access Denied</h2><p>Only admins can add properties.</p>");
+    res.status(403).send("Access Denied: Only admins can add properties.");
   }
 });
 
-// Add property POST request
+// Handle property addition
 app.post("/add-property", isAuthenticated, upload.single("image"), async (req, res) => {
   if (req.session.user.role === "admin") {
     const { title, description, price, location, propertyType, bedrooms, bathrooms, size, features } = req.body;
@@ -121,17 +121,21 @@ app.post("/add-property", isAuthenticated, upload.single("image"), async (req, r
       features: features ? features.split(",").map((feature) => feature.trim()) : [],
     });
 
-    await newProperty.save();
-    res.redirect("/home");
+    try {
+      await newProperty.save();
+      res.redirect("/home");
+    } catch (err) {
+      res.status(500).send("An error occurred while adding the property.");
+    }
   } else {
-    res.send("<h2>Access Denied</h2><p>Only admins can add properties.</p>");
+    res.status(403).send("Access Denied: Only admins can add properties.");
   }
 });
 
 // Logout route
 app.get("/logout", (req, res) => {
   req.session.destroy(() => {
-    res.redirect("/login");
+    res.redirect("/login?message=Logged%20out%20successfully");
   });
 });
 
